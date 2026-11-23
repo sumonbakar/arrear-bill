@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>বকেয়া বেতন বিল — গেজেটেড কর্মকর্তা</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@700;800&display=swap">
+<style>
+/* VOICE: formal, government-office, clear; a working tool first
+   IDEA: the T.R. Form 13 itself, filled in live as you type
+   PICTURE: the A4 bill preview, large, beside the form
+   COLOUR and TYPE: Bangladesh green field, white paper, one red accent; Noto Serif Bengali titles, SutonnyOMJ/Noto Sans Bengali text
+   LAYOUT: form column left, live A4 bill right; stacks under 980px */
+:root{color-scheme:light dark;--bg:light-dark(#eef3ef,#0d1712);--panel:light-dark(#ffffff,#15231b);--ink:light-dark(#14201a,#e6efe9);--mute:light-dark(#5a6b61,#9bb0a3);--line:light-dark(#d5e0d9,#2a3d32);--g:#006a4e;--g2:light-dark(#e3f0ea,#173326);--red:#d42a3c}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'SutonnyOMJ','Noto Sans Bengali',sans-serif;overflow-x:clip}
+header{background:var(--g);color:#fff;padding:22px max(4vw,16px) 20px;display:flex;flex-wrap:wrap;gap:16px 32px;align-items:end;justify-content:space-between}
+h1{font:800 clamp(24px,3.2vw,36px)/1.15 'Noto Serif Bengali',serif;margin:0;text-wrap:balance}
+header p{margin:6px 0 0;opacity:.88;max-width:62ch;font-size:15px}
+.result{background:#fff;color:#0b3d2c;border-radius:10px;padding:10px 18px;text-align:right}
+.result small{display:block;font-size:13px;color:#4a5f54}
+.result b{font:800 clamp(26px,3.4vw,38px)/1.1 'Noto Serif Bengali',serif;white-space:nowrap}
+main{display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:24px;padding:24px max(3vw,12px) 48px;max-width:1500px;margin:0 auto}
+@media(max-width:980px){main{grid-template-columns:minmax(0,1fr)}}
+.form{display:grid;gap:16px;align-content:start}
+fieldset{border:1px solid var(--line);background:var(--panel);border-radius:10px;margin:0;padding:14px 16px 16px}
+legend{font-weight:700;color:var(--g);padding:0 6px;font-size:15px}
+:root[data-theme=dark] legend{color:#5fd0a6}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) legend{color:#5fd0a6}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:13.5px;color:var(--mute)}
+input,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:7px;padding:8px 10px;min-height:42px;margin-top:3px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+.lock{background:var(--g2);font-weight:700;color:var(--g)}
+.hint{font-size:13px;color:var(--mute);margin:8px 0 0}
+.warn{font-size:13.5px;color:var(--red);margin:8px 0 0}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.seg label{flex:1 1 150px;border:1px solid var(--line);border-radius:7px;padding:8px 10px;color:var(--ink);font-size:14px;cursor:pointer;min-height:42px}
+.seg input{width:auto;min-height:0;margin:0 6px 0 0}
+.seg label:has(input:checked){border-color:var(--g);background:var(--g2)}
+table.ed{width:100%;border-collapse:collapse;font-size:14px}
+table.ed th{font-weight:600;color:var(--mute);text-align:right;padding:4px;font-size:12.5px}
+table.ed th:first-child,table.ed td:first-child{text-align:left}
+table.ed td{padding:3px}
+table.ed input{min-height:36px;padding:5px 6px;text-align:right;font-size:15px}
+table.ed input.o{border-color:var(--red)}
+.rows{display:grid;gap:6px}
+.row{display:grid;grid-template-columns:100px minmax(0,1fr) 96px 36px;gap:6px;align-items:center}
+.row input{margin:0}
+.x{min-height:36px;border:0;background:transparent;color:var(--mute);font-size:20px;cursor:pointer}
+button.b{font:inherit;font-weight:600;border:1px solid var(--g);background:var(--panel);color:var(--g);border-radius:8px;padding:9px 14px;min-height:44px;cursor:pointer}
+button.p{background:var(--g);color:#fff}
+.fx{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--g2)}.fx td{padding:4px 8px;border-bottom:1px solid var(--line)}.fx td:last-child{text-align:right;white-space:nowrap;font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.view{position:sticky;top:12px;align-self:start}
+@media(max-width:980px){.view{position:static}}
+.stage{overflow:hidden;border-radius:6px}
+.pages{transform-origin:0 0;width:794px}
+.page{width:794px;min-height:1123px;background:#fff;color:#000;padding:46px 52px 40px;margin:0 0 18px;box-shadow:0 2px 14px rgba(0,30,15,.18);font:15px/1.45 'SutonnyOMJ','Noto Sans Bengali',sans-serif;position:relative}
+.page .tl{position:absolute;left:52px;top:40px;font-size:12.5px;font-weight:700;line-height:1.5}
+.page .tr{position:absolute;right:52px;top:40px;font-size:12.5px;font-weight:700;text-align:right;line-height:1.5}
+.page h2{font:800 23px/1.3 'Noto Serif Bengali',serif;text-align:center;margin:18px 0 6px}
+.page .c{text-align:center;margin:3px 0}
+.meta{display:grid;grid-template-columns:1.15fr 1fr;gap:3px 20px;margin:18px 0 12px}
+.meta .r{text-align:right}
+.vrow{display:flex;justify-content:space-between;gap:10px;font-weight:700;margin:10px 0 8px}
+table.bill{width:100%;border-collapse:collapse;font-size:14.5px}
+table.bill td,table.bill th{border:1px solid #6b6b6b;padding:5px 8px}
+table.bill th{text-align:left}
+table.bill .n{text-align:right;white-space:nowrap}
+table.bill .cd{text-align:center;width:24%}
+.sig{display:flex;justify-content:space-between;margin-top:26px;gap:20px}
+.foot{position:absolute;left:52px;right:52px;bottom:34px;font-size:11.5px;display:flex;justify-content:space-between}
+table.sch{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+table.sch th,table.sch td{border:1px solid #6b6b6b;padding:5px 6px}
+table.sch th{background:#f1f1f1;font-weight:700;text-align:center}
+table.sch td{text-align:right;white-space:nowrap}
+table.sch td.l{text-align:left;white-space:normal}
+.dots{border-bottom:1px dotted #000;display:inline-block;min-width:200px}
+ol.ins{padding-left:22px;font-size:14px}
+.status{font-size:14px;color:var(--mute)}
+@media print{body{background:#fff}header,.form,.bar,.status{display:none!important}main{display:block;padding:0}.pages{transform:none!important;width:auto}.stage{height:auto!important;overflow:visible}.page{box-shadow:none;margin:0;page-break-after:always;min-height:0;height:297mm}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>গেজেটেড কর্মকর্তার বকেয়া বেতন বিল</h1>
+    <p>জাতীয় বেতন স্কেল ২০২৬ (নবম পে-স্কেল) — টি.আর. ফরম নং ১৩। মূল বেতনের কোড <b>৩১১১১০১ মূল বেতন (অফিসার)</b> সবার জন্য স্থির রাখা হয়েছে। তথ্য দিলে বিল, মাসওয়ারি বকেয়া বিবরণী ও পিছনের পৃষ্ঠা নিজে থেকে তৈরি হবে।</p>
+  </div>
+  <div class="result"><small>প্রদেয় বকেয়া বিল (ক−খ)</small><b id="big">০.০০</b></div>
+</header>
+<main>
+<section class="form">
+  <div class="bar">
+    <select id="saved" aria-label="সংরক্ষিত বিল" style="flex:1 1 180px;margin:0"></select>
+    <button class="b" id="saveBtn">সংরক্ষণ</button>
+    <button class="b" id="newBtn">নতুন ফাঁকা বিল</button>
+    <button class="b" id="sampleBtn">নমুনা দেখুন</button>
+  </div>
+  <fieldset><legend>দপ্তর ও বিলের তথ্য</legend><div class="grid">
+    <label class="full">দপ্তর<input data-k="office"></label>
+    <label>প্রাতিষ্ঠানিক/অপারেশন কোড<input data-k="opcode"></label>
+    <label>বিল প্রস্তুতের মাস<input type="month" data-k="billMonth"></label>
+    <label>বিল/ভাউচার নং<input data-k="voucher"></label>
+    <label>তারিখ<input type="date" data-k="vdate"></label>
+    <label>টোকেন নং<input data-k="token"></label>
+    <label>ভলিয়্যুম নম্বর<input data-k="vol" placeholder="যেমন pg-40"></label>
+    <label>পৃষ্ঠা নম্বর<input data-k="pgno"></label>
+  </div></fieldset>
+  <fieldset><legend>কর্মকর্তার তথ্য</legend><div class="grid">
+    <label class="full">নাম<input data-k="name"></label>
+    <label>পদবি<select data-k="desigSel" id="desigSel"><option>Medical Officer</option><option>সহকারী সার্জন</option><option>সহকারী অধ্যাপক</option><option>সহযোগী অধ্যাপক</option><option>অধ্যাপক</option><option value="__other">অন্যান্য (নিজে লিখুন)</option></select></label>
+    <label id="lDesig">পদবি লিখুন<input data-k="desigOther"></label>
+    <label>কর্মকর্তার আইডি নং<input data-k="oid" placeholder="নিজে লিখুন"></label>
+    <label>জাতীয় পরিচয়পত্র নং<input data-k="nid" inputmode="numeric" placeholder="নিজে লিখুন"></label>
+    <label>টিআইএন<input data-k="tin" inputmode="numeric" placeholder="নিজে লিখুন"></label>
+    <label class="full">বেতন গ্রেড ও নতুন স্কেল (জাতীয় বেতন স্কেল ২০২৬)<select data-k="grade" id="grade"></select></label>
+    <label class="full">ভবিষ্যত তহবিল নং<input data-k="gpf"></label>
+    <label class="full">প্রতিস্বাক্ষরকারী / নিয়ন্ত্রণকারী কর্মকর্তার পদবি (ঐচ্ছিক)<input data-k="counter" placeholder="যেমন পরিচালক, ... হাসপাতাল"></label>
+  </div></fieldset>
+  <fieldset><legend>বকেয়ার সময়কাল ও মূল বেতন</legend><div class="grid">
+    <label>শুরু (মাস)<input type="month" data-k="from"></label>
+    <label>শেষ (মাস)<input type="month" data-k="to"></label>
+    <p class="hint full" style="margin:0">যে মাসগুলোর বেতন পুরাতন স্কেলে তোলা হয়েছে সেগুলোই দিন — আইবাস++ এ সাধারণত জুলাই–অক্টোবর ২০২৬ (নভেম্বর থেকে নতুন স্কেলে)। ইয়ারলি স্যালারি স্টেটমেন্টের মাস = উত্তোলনের মাস, প্রাপ্য মাস তার আগের মাস।</p>
+    <div class="full"><label>নতুন মূল বেতন যেভাবে নির্ধারণ হবে</label>
+      <div class="seg">
+        <label><input type="radio" name="mode" value="fix">পে-ফিক্সেশন বিবরণী থেকে স্বয়ংক্রিয় (আইবাস++ এর নিয়মে)</label>
+        <label><input type="radio" name="mode" value="ibas">আইবাস++ বেতন বিলের মূল বেতন হাতে দিন</label>
+      </div></div>
+    <label>২০১৫ স্কেলে গ্রেড (বিবরণীর ক্রম ০৮ক)<select data-k="oldGrade" id="oldGrade"></select></label>
+    <label>৩০-০৬-২০২৬ এ গৃহীত মূল বেতন (ক্রম ০৭ক)<input type="number" data-k="b0" min="0" list="oldSteps"><datalist id="oldSteps"></datalist></label>
+    <label class="full"><span style="display:flex;gap:10px;align-items:center;color:var(--ink);min-height:40px"><input type="checkbox" data-c="incr" style="width:22px;height:22px;min-height:0;margin:0">০১-০৭-২০২৬ তারিখে বার্ষিক বেতন বৃদ্ধি (ইনক্রিমেন্ট) প্রাপ্য</span></label>
+    <label id="lPh">আইবাস++ বিলে মূল বেতন — জুলাই–ডিসেম্বর ২০২৬<input type="number" data-k="phased" min="0"></label>
+    <label id="lPh2">মূল বেতন — জানুয়ারি–জুন ২০২৭ (প্রযোজ্য হলে)<input type="number" data-k="phased2" min="0"></label>
+    <label>জুলাই ২০২৬ থেকে উত্তোলিত মূল বেতন (পুরাতন স্কেল)<input type="number" data-k="oldBasic" min="0" list="oldSteps" placeholder="খালি = ৩০ জুনের মূল বেতন"></label>
+    <label>উত্তোলিত বিশেষ সুবিধা (মাসিক)<input type="number" data-k="sbAmt" min="0" placeholder="খালি = স্বয়ংক্রিয়"></label>
+    <label>বাড়ি ভাড়ার হার<select data-k="hrRate"><option value="0">সরকারি বাসা / প্রযোজ্য নয়</option><option value="40">৪০%</option><option value="45">৪৫%</option><option value="50">৫০%</option><option value="55">৫৫%</option><option value="60">৬০%</option><option value="65">৬৫%</option></select></label>
+    <label>উত্তোলিত বাড়ি ভাড়া (মাসিক)<input type="number" data-k="hrDrawn" min="0" placeholder="খালি = স্বয়ংক্রিয়"></label>
+    <label>প্রাপ্য বাড়ি ভাড়া (৩০ জুনের মূল বেতনে)<input type="number" data-k="hrDue" min="0" placeholder="খালি = স্বয়ংক্রিয়"></label>
+    <div class="full" id="fixbox"></div>
+    <p class="hint full" id="phaseNote"></p>
+    <div class="full"><label>বিশেষ সুবিধা সমন্বয় বিলে যেভাবে দেখাবে</label>
+      <div class="seg">
+        <label><input type="radio" name="sbShow" value="net">মূল বেতনের বকেয়া থেকে বাদ দিয়ে নিট</label>
+        <label><input type="radio" name="sbShow" value="sep">কর্তন অংশে আলাদা লাইনে</label>
+      </div></div>
+  </div></fieldset>
+  <fieldset><legend>মাসওয়ারি হিসাব (প্রয়োজনে ঘর বদলান)</legend>
+    <div style="overflow-x:auto"><table class="ed"><thead><tr><th>মাস</th><th>প্রাপ্য মূল বেতন</th><th>উত্তোলিত মূল বেতন</th><th>বিশেষ সুবিধা</th><th>উত্তোলিত বাড়ি ভাড়া</th><th>প্রাপ্য বাড়ি ভাড়া</th><th>দিন</th></tr></thead><tbody id="ed"></tbody></table></div>
+    <p class="hint">লাল ঘর মানে আপনি হাতে বদলেছেন। আংশিক মাস (যোগদান/ছুটি) হলে "দিন" কমান।</p>
+    <div class="bar" style="margin-top:8px"><button class="b" id="clearOv">স্বয়ংক্রিয় হিসাবে ফেরান</button></div>
+    <p class="warn" id="warn"></p>
+  </fieldset>
+  <fieldset><legend>অন্যান্য দাবি (যদি থাকে)</legend><div class="rows" id="extra"></div>
+    <div class="bar" style="margin-top:8px"><button class="b" data-add="extra">+ দাবি যোগ</button></div></fieldset>
+  <fieldset><legend>কর্তন ও পরিশোধ</legend><div class="rows" id="ded"></div>
+    <div class="bar" style="margin-top:8px"><button class="b" data-add="ded">+ কর্তন যোগ</button></div>
+    <p class="hint">শুধু যে কর্তনে টাকা আছে সেটিই বিলে ছাপা হবে।</p></fieldset>
+</section>
+<section class="view">
+  <div class="bar" style="margin-bottom:10px">
+    <button class="b p" id="pdfBtn">PDF ডাউনলোড</button>
+    <button class="b" id="printBtn">প্রিন্ট</button>
+    <span class="status" id="status"></span>
+  </div>
+  <div class="stage" id="stage"><div class="pages" id="pages"></div></div>
+</section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+{
+const $=id=>document.getElementById(id);
+const BN='০১২৩৪৫৬৭৮৯';
+const bn=s=>String(s??'').replace(/\d/g,d=>BN[d]);
+const money=n=>bn((+n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}));
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MN=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const U='শূন্য এক দুই তিন চার পাঁচ ছয় সাত আট নয় দশ এগারো বারো তেরো চৌদ্দ পনেরো ষোলো সতেরো আঠারো উনিশ বিশ একুশ বাইশ তেইশ চব্বিশ পঁচিশ ছাব্বিশ সাতাশ আটাশ ঊনত্রিশ ত্রিশ একত্রিশ বত্রিশ তেত্রিশ চৌত্রিশ পঁয়ত্রিশ ছত্রিশ সাঁইত্রিশ আটত্রিশ ঊনচল্লিশ চল্লিশ একচল্লিশ বিয়াল্লিশ তেতাল্লিশ চুয়াল্লিশ পঁয়তাল্লিশ ছেচল্লিশ সাতচল্লিশ আটচল্লিশ ঊনপঞ্চাশ পঞ্চাশ একান্ন বায়ান্ন তিপ্পান্ন চুয়ান্ন পঞ্চান্ন ছাপ্পান্ন সাতান্ন আটান্ন ঊনষাট ষাট একষট্টি বাষট্টি তেষট্টি চৌষট্টি পঁয়ষট্টি ছেষট্টি সাতষট্টি আটষট্টি ঊনসত্তর সত্তর একাত্তর বাহাত্তর তিয়াত্তর চুয়াত্তর পঁচাত্তর ছিয়াত্তর সাতাত্তর আটাত্তর ঊনআশি আশি একাশি বিরাশি তিরাশি চুরাশি পঁচাশি ছিয়াশি সাতাশি অষ্টআশি ঊননব্বই নব্বই একানব্বই বিরানব্বই তিরানব্বই চুরানব্বই পঁচানব্বই ছিয়ানব্বই সাতানব্বই আটানব্বই নিরানব্বই'.split(' ');
+function words(n){n=Math.round(Math.abs(n));if(!n)return 'শূন্য';const s=[];const cr=Math.floor(n/1e7);n%=1e7;if(cr)s.push(words(cr)+' কোটি');const l=Math.floor(n/1e5);n%=1e5;if(l)s.push(U[l]+' লক্ষ');const h=Math.floor(n/1e3);n%=1e3;if(h)s.push(U[h]+' হাজার');const sh=Math.floor(n/100);n%=100;if(sh)s.push(U[sh]+' শত');if(n)s.push(U[n]);return s.join(' ');}
+const SC={1:{r:'156000 (নির্ধারিত)',st:[156000]},2:{r:'132000-153000'},3:{r:'113000-148800'},4:{r:'100000-142400'},5:{r:'86000-139700'},6:{r:'71000-134000'},7:{r:'58000-126800'},8:{r:'46000-110800'},9:{r:'44000-105900'}};
+const STEPS={2:'132000-135700-139400-143200-147200-151200-153000',3:'113000-117000-121100-125300-129700-134300-139000-143800-148800',4:'100000-103500-107200-110900-114800-118800-123000-127300-131700-136300-142400',5:'86000-89500-93100-96800-100700-104700-108900-113200-117700-122500-127400-132400-139700',6:'71000-74600-78300-82200-86400-90700-95200-100000-104900-110200-115700-121500-127600-134000',7:'58000-60900-64000-67200-70500-74100-77800-81700-85700-90000-94500-99200-104200-109400-114900-120600-126800',8:'46000-48300-50800-53300-56000-58800-61700-64800-68000-71400-75000-78700-82700-86800-91100-95700-100500-105500-110800',9:'44000-46200-48600-51000-53500-56200-59000-62000-65100-68300-71700-75300-79100-83000-87200-91500-96100-100900-105900'};
+const OLD15={1:'78000',2:'66000-68480-71050-73720-76490',3:'56500-58760-61120-63570-66120-68770-71530-74400',4:'50000-52000-54080-56250-58500-60840-63280-65820-68460-71200',5:'43000-44940-46970-49090-51300-53610-56030-58560-61200-63960-66840-69850',6:'35500-37280-39150-41110-43170-45330-47600-49980-52480-55110-57870-60770-63810-67010',7:'29000-30450-31980-33580-35260-37030-38890-40840-42890-45040-47300-49670-52160-54770-57510-60390-63410',8:'23000-24150-25360-26630-27970-29370-30840-32390-34010-35720-37510-39390-41360-43430-45610-47900-50300-52820-55470',9:'22000-23100-24260-25480-26760-28100-29510-30990-32540-34170-35880-37680-39570-41550-43630-45820-48120-50530-53060',10:'16000-16800-17640-18530-19460-20440-21470-22550-23680-24870-26120-27430-28810-30260-31780-33370-35040-36800-38640'};
+const oldSt=g=>OLD15[g].split('-').map(Number);
+const stepsOf=g=>g==1?[156000]:STEPS[g].split('-').map(Number);
+const thou=n=>bn(Number(n).toLocaleString('en-US'));
+const scaleTxt=g=>SC[g]?SC[g].r.replace(/\d+/g,x=>thou(x)):'';
+const desigOf=()=>S.desigSel==='__other'?(S.desigOther||''):(S.desigSel||'');
+const today=new Date();const iso=d=>d.toISOString().slice(0,10);
+const BASE={office:'',opcode:'',billMonth:iso(today).slice(0,7),voucher:'',vdate:iso(today),token:'',vol:'',pgno:'',hrRate:'50',hrDrawn:'',hrDue:'',name:'',desigSel:'Medical Officer',desigOther:'',oid:'',nid:'',tin:'',grade:'9',oldGrade:'9',b0:'',incr:true,phased2:'',gpf:'',counter:'',from:'2026-07',to:'2026-10',mode:'fix',phased:'',oldBasic:'',sbAmt:'',sbShow:'sep',ov:{},extra:[],
+ ded:[{c:'1162101',d:'স্ট্যাম্প ডিউটি',a:10},{c:'1111101',d:'ব্যক্তি কর্তৃক দেয় আয়কর',a:0},{c:'8112201',d:'সাধারণ ভবিষ্য তহবিল (সিভিল)(চাঁদা)',a:0}]};
+const SAMPLE=Object.assign(JSON.parse(JSON.stringify(BASE)),{office:'প্রধান কার্যালয়, স্বাস্থ্য অধিদপ্তর',opcode:'110514',name:'নমুনা কর্মকর্তা',desigSel:'সহকারী অধ্যাপক',grade:'5',oldGrade:'5',b0:61200,gpf:'CAO/HALTH/00000'});
+let S;
+const store={get(){try{return JSON.parse(localStorage.getItem('arrearBills')||'{}')}catch(e){return {}}},set(o){try{localStorage.setItem('arrearBills',JSON.stringify(o));return true}catch(e){return false}}};
+function loadInit(){let cur=null;try{cur=JSON.parse(localStorage.getItem('arrearCurrent')||'null')}catch(e){}S=Object.assign(JSON.parse(JSON.stringify(BASE)),cur&&cur.ov?cur:{});}
+function persist(){try{localStorage.setItem('arrearCurrent',JSON.stringify(S))}catch(e){}}
+$('oldGrade').innerHTML=[10,9,8,7,6,5,4,3,2,1].map(g=>{const a=oldSt(g);return `<option value="${g}">গ্রেড - ${bn(g)} : (${bn(a[0]+(a.length>1?'-'+a[a.length-1]:''))})</option>`}).join('');
+$('grade').innerHTML=[9,8,7,6,5,4,3,2,1].map(g=>`<option value="${g}">গ্রেড - ${bn(g)} : টাকা ${scaleTxt(g)}</option>`).join('');
+const pct=(y,m,g)=>{const k=y*12+m;return k<2027*12+1?(g<=9?.4:.5):k<2027*12+7?(g<=9?.7:.75):1};
+const phaseName=p=>({0.4:'১ম ধাপ (৪০%)',0.5:'১ম ধাপ (৫০%)',0.7:'২য় ধাপ (৭০%)',0.75:'২য় ধাপ (৭৫%)',1:'পূর্ণ (১০০%)'}[p]);
+function monthsList(){const out=[];const [fy,fm]=(S.from||'').split('-').map(Number),[ty,tm]=(S.to||'').split('-').map(Number);if(!fy||!ty)return out;let y=fy,m=fm;while(y*12+m<=ty*12+tm&&out.length<36){out.push({y,m,key:`${y}-${String(m).padStart(2,'0')}`});m++;if(m>12){m=1;y++}}return out;}
+function fixation(g){
+  const b0=+S.b0;if(!b0)return null;
+  const og=+S.oldGrade||g,st=stepsOf(g),old0=oldSt(og)[0],D=b0-old0,tot=st[0]+D;
+  let i=st.findIndex(v=>v>=tot),cap=false;if(i<0){i=st.length-1;cap=true}
+  const F=st[i],Fi=S.incr&&st[i+1]?st[i+1]:F,I=F-b0,p1=g<=9?.4:.5,p2=g<=9?.7:.75;
+  const a1=Math.round(I*p1),P1=b0+a1,P1i=P1+(Fi-F),a2=Math.round(I*(p2-p1)),P2=P1i+a2;
+  return {b0,og,old0,D,start:st[0],tot,F,Fi,I,a1,P1,P1i,a2,P2,P3:P2+(I-a1-a2),next:st[st.indexOf(Fi)+1]||Fi,cap};
+}
+function compute(){
+  const g=+S.grade,fx=fixation(g),p1=g<=9?.4:.5;
+  const og=+S.oldGrade||g,os=oldSt(og),bi=os.indexOf(+S.b0);
+  const autoDrawn=+S.b0?(S.incr&&bi>=0&&os[bi+1]?os[bi+1]:+S.b0):0;
+  const drawnDef=+S.oldBasic||autoDrawn,rate=g<=9?.10:.15,hr=(+S.hrRate||0)/100;
+  const hrDrawnDef=S.hrDrawn!==''&&S.hrDrawn!=null?+S.hrDrawn:Math.round(drawnDef*hr);
+  const hrDueDef=S.hrDue!==''&&S.hrDue!=null?+S.hrDue:(+S.b0?Math.round(+S.b0*hr):hrDrawnDef);
+  const sbAuto=drawnDef?Math.max(1000,Math.round(drawnDef*rate)):0;
+  const sb=S.sbAmt!==''&&S.sbAmt!=null?+S.sbAmt:sbAuto;
+  const rows=monthsList().map(o=>{
+    const p=pct(o.y,o.m,g),dim=new Date(o.y,o.m,0).getDate(),ov=S.ov[o.key]||{};
+    let due=0;
+    if(p===p1)due=S.mode==='ibas'&&+S.phased?+S.phased:(fx?fx.P1i:0);
+    else if(p<1)due=S.mode==='ibas'&&+S.phased2?+S.phased2:(fx?fx.P2:0);
+    else due=fx?fx.Fi:0;
+    const a={due:ov.due??due,drawn:ov.drawn??drawnDef,sb:ov.sb??sb,hrD:ov.hrD??hrDrawnDef,hrE:ov.hrE??hrDueDef,days:ov.days??dim};
+    const f=Math.min(1,Math.max(0,+a.days/dim));
+    const diff=Math.round((+a.due-+a.drawn)*f),sbAdj=Math.round(+a.sb*f),hrAdj=Math.round((+a.hrD-+a.hrE)*f);
+    return {...o,p,dim,...a,diff,sbAdj,hrAdj,net:diff-sbAdj-hrAdj,ov};
+  });
+  const T=k=>rows.reduce((s,r)=>s+r[k],0);
+  const extra=S.extra.filter(r=>+r.a),hasClaim=rows.some(r=>r.net)||extra.length,ded=hasClaim?S.ded.filter(r=>+r.a):[];
+  const sep=S.sbShow==='sep';
+  const hrT=T('hrAdj');
+  const claimBasic=sep?T('diff'):T('net');
+  const ka=claimBasic+(sep&&hrT<0?-hrT:0)+extra.reduce((s,r)=>s+ +r.a,0);
+  const kh=(sep?T('sbAdj')+(hrT>0?hrT:0):0)+ded.reduce((s,r)=>s+ +r.a,0);
+  return {rows,T,extra,ded,sep,claimBasic,hrT,ka,kh,pay:ka-kh,sbAuto,fx,g,rate,autoDrawn,bi};
+}
+function fixRows(C){const x=C.fx;if(!x)return [];const g=C.g,L1=g<=9?'৪০%':'৫০%',L2=g<=9?'৩০%':'২৫%',L3=g<=9?'৭০%':'৭৫%';
+  return [['০৭ক। ৩০-০৬-২০২৬ তারিখে গৃহীত মূল বেতন',x.b0],['০৮খ। ২০১৫ স্কেলে প্রাপ্ত গ্রেডের প্রারম্ভিক ধাপ (গ্রেড '+bn(x.og)+')',x.old0],['০৮গ। পার্থক্য',x.D],['০৯খ। ২০২৬ স্কেলে প্রাপ্য গ্রেডের প্রারম্ভিক ধাপ (গ্রেড '+bn(g)+')',x.start],['০৯গ। মোট বেতন',x.tot],['১০-১১। ০১-০৭-২০২৬ তারিখে নির্ধারিত বেতন (সম/উচ্চধাপ)',x.F],['১২। ইনক্রিমেন্টসহ নির্ধারিত বেতন',x.Fi],['১৩। বেতন বৃদ্ধির পরিমাণ',x.I],['১৪। বৃদ্ধিপ্রাপ্ত বেতনের '+L1,x.a1],['১৫। ০১-০৭-২০২৬ তারিখে প্রাপ্য বেতন ('+L1+' বৃদ্ধি অনুযায়ী)',x.P1],['১৬। ০১-০৭-২০২৬ ইনক্রিমেন্টসহ প্রাপ্য বেতন',x.P1i],['১৭। ০১-০১-২০২৭ তারিখে বেতন বৃদ্ধির '+L2,x.a2],['১৮। ০১-০১-২০২৭ তারিখে নির্ধারিত প্রাপ্য বেতন ('+L3+')',x.P2],['২০। ০১-০৭-২০২৭ তারিখে নির্ধারিত প্রাপ্য বেতন ১০০%',x.P3],['২১। ০১-০৭-২০২৭ ইনক্রিমেন্টসহ প্রাপ্য',x.next]];}
+function fillForm(){
+  document.querySelectorAll('[data-k]').forEach(el=>{el.value=S[el.dataset.k]??''});
+  document.querySelectorAll('[data-c]').forEach(el=>el.checked=!!S[el.dataset.c]);
+  document.querySelectorAll('input[name=mode]').forEach(r=>r.checked=r.value===S.mode);
+  document.querySelectorAll('input[name=sbShow]').forEach(r=>r.checked=r.value===S.sbShow);
+  renderRows('extra');renderRows('ded');
+}
+function renderRows(k){$(k).innerHTML=S[k].map((r,i)=>`<div class="row"><input aria-label="কোড" value="${esc(r.c)}" data-l="${k}" data-i="${i}" data-f="c" placeholder="কোড"><input aria-label="বিবরণ" value="${esc(r.d)}" data-l="${k}" data-i="${i}" data-f="d" placeholder="বিবরণ"><input aria-label="টাকা" type="number" value="${esc(r.a)}" data-l="${k}" data-i="${i}" data-f="a" style="text-align:right"><button class="x" data-del="${k}" data-i="${i}" aria-label="মুছুন">×</button></div>`).join('')||'<p class="hint" style="margin:0">কিছু নেই</p>';}
+function renderEditor(C){
+  $('ed').innerHTML=C.rows.map(r=>{const c=f=>r.ov[f]!=null?' class="o"':'';return `<tr><td>${MN[r.m-1]} ${bn(r.y)}<br><small style="color:var(--mute)">${phaseName(r.p)}</small></td><td><input type="number" data-m="${r.key}" data-f="due" value="${r.due}"${c('due')}></td><td><input type="number" data-m="${r.key}" data-f="drawn" value="${r.drawn}"${c('drawn')}></td><td><input type="number" data-m="${r.key}" data-f="sb" value="${r.sb}"${c('sb')}></td><td><input type="number" data-m="${r.key}" data-f="hrD" value="${r.hrD}"${c('hrD')}></td><td><input type="number" data-m="${r.key}" data-f="hrE" value="${r.hrE}"${c('hrE')}></td><td><input type="number" data-m="${r.key}" data-f="days" value="${r.days}" style="width:58px"${c('days')}></td></tr>`}).join('');
+}
+function notes(C){
+  const pc=C.g<=9?'৪০%':'৫০%';
+  $('lDesig').style.display=S.desigSel==='__other'?'':'none';
+  $('lPh').style.display=S.mode==='ibas'?'':'none';$('lPh2').style.display=S.mode==='ibas'?'':'none';
+  $('oldSteps').innerHTML=oldSt(+S.oldGrade||C.g).map(v=>`<option value="${v}">ধাপ ${thou(v)}</option>`).join('');
+  $('fixbox').innerHTML=C.fx?`<table class="fx"><tr><td colspan="2" style="font-weight:700;color:var(--g)">বেতন নির্ধারণী বিবরণীর সাথে মিলিয়ে নিন</td></tr>${fixRows(C).map(r=>`<tr><td>${r[0]}</td><td>${money(r[1])}</td></tr>`).join('')}</table>${C.fx.cap?'<p class="warn">মোট বেতন স্কেলের সর্বোচ্চ ধাপ ছাড়িয়েছে — সর্বোচ্চ ধাপ ধরা হয়েছে, বিবরণী দেখে যাচাই করুন।</p>':''}`:'<p class="hint" style="margin:0">৩০ জুনের মূল বেতন দিলে বেতন নির্ধারণের পুরো হিসাব এখানে দেখাবে।</p>';
+  let t=`গ্রেড ${bn(C.g)}: জুলাই–ডিসেম্বর ২০২৬ এ বর্ধিত মূল বেতনের ${pc}, জানুয়ারি–জুন ২০২৭ এ ${C.g<=9?'৭০%':'৭৫%'}, জুলাই ২০২৭ থেকে ১০০%। স্বয়ংক্রিয় বিশেষ সুবিধা = পুরাতন মূল বেতনের ${C.g<=9?'১০%':'১৫%'} (সর্বনিম্ন ১,০০০) = ${money(C.sbAuto)}।`;
+  if(C.autoDrawn)t+=` উত্তোলিত মূল বেতন স্বয়ংক্রিয়ভাবে ধরা হয়েছে ${money(C.autoDrawn)} (৩০ জুনের মূল বেতন${S.incr&&C.bi>=0?' + ২০১৫ স্কেলে ১ জুলাইয়ের ইনক্রিমেন্ট':''}) — জুলাই ২০২৬ এর বেতন বিলের সাথে মিলিয়ে নিন।`;
+  if(+S.b0&&C.bi<0)t+=' সতর্কতা: ৩০ জুনের মূল বেতনটি ২০১৫ স্কেলের নির্বাচিত গ্রেডের কোনো ধাপের সাথে মেলেনি।';
+  $('phaseNote').textContent=t;
+  const neg=C.rows.filter(r=>r.net<0);
+  $('warn').textContent=!C.rows.length?'সময়কাল ঠিক করুন।':neg.length?`সতর্কতা: ${neg.map(r=>MN[r.m-1]).join(', ')} মাসে বকেয়া ঋণাত্মক — তথ্য যাচাই করুন।`:'';
+}
+function period(C){if(!C.rows.length)return '';const a=C.rows[0],b=C.rows[C.rows.length-1];return `${MN[a.m-1]} ${bn(a.y)} হতে ${MN[b.m-1]} ${bn(b.y)} পর্যন্ত`;}
+function fmtDate(d){if(!d)return '';const [y,m,dd]=d.split('-');return bn(`${dd}/${m}/${y}`);}
+function renderBill(C){
+  const [by,bm]=(S.billMonth||'').split('-').map(Number);
+  const lines=[`<tr><td class="cd">${bn('3111101')}</td><td>মূল বেতন (অফিসার) — বকেয়া (${period(C)})${C.sep?'':' — সমন্বয়ের পর নিট'}</td><td></td><td class="n">${money(C.claimBasic)}</td></tr>`]
+   .concat(C.sep&&C.hrT<0?[`<tr><td class="cd">${bn('3111310')}</td><td>বাড়ি ভাড়া ভাতা — বকেয়া</td><td></td><td class="n">${money(-C.hrT)}</td></tr>`]:[])
+   .concat(C.extra.map(r=>`<tr><td class="cd">${bn(esc(r.c))}</td><td>${esc(r.d)}</td><td></td><td class="n">${money(r.a)}</td></tr>`));
+  const dl=(C.sep&&C.T('sbAdj')?[`<tr><td class="cd">${bn('3111352')}</td><td>বিশেষ সুবিধা — উত্তোলিত অর্থ সমন্বয়</td><td></td><td class="n">${money(C.T('sbAdj'))}</td></tr>`]:[])
+   .concat(C.sep&&C.hrT>0?[`<tr><td class="cd">${bn('3111310')}</td><td>বাড়ি ভাড়া ভাতা — অতিরিক্ত উত্তোলিত অর্থ সমন্বয়</td><td></td><td class="n">${money(C.hrT)}</td></tr>`]:[])
+   .concat(C.ded.map(r=>`<tr><td class="cd">${bn(esc(r.c))}</td><td>${esc(r.d)}</td><td></td><td class="n">${money(r.a)}</td></tr>`));
+  const p1=`<div class="page"><div class="tl">টি.আর.ফরম নং ১৩<br>[এস. আর ১৩৯ (১) দ্রষ্টব্য]</div><div class="tr">${S.vol?'ভলিয়্যুম নম্বর: '+esc(S.vol):''}${S.pgno?'<br>পৃষ্ঠা নম্বর: '+bn(esc(S.pgno)):''}</div>
+  <h2>গেজেটেড সরকারি কর্মকর্তার বকেয়া বেতন বিল</h2>
+  <p class="c">জাতীয় বেতন স্কেল ২০২৬ — ${period(C)}</p>
+  <p class="c">বিল প্রস্তুতের মাস: ${by?MN[bm-1]+' '+bn(by):''}</p>
+  <p class="c">দপ্তর : ${esc(S.office)}</p><p class="c">প্রাতিষ্ঠানিক/অপারেশন কোড * ${bn(esc(S.opcode))}</p>
+  <div class="meta"><div><b>নাম:</b> ${esc(S.name)}</div><div class="r"><b>পদবি:</b> ${esc(desigOf())}</div>
+  <div><b>কর্মকর্তার আইডি নং:</b> ${bn(esc(S.oid))}</div><div class="r"><b>জাতীয় পরিচয়পত্র নং:</b> ${bn(esc(S.nid))}</div>
+  <div><b>বর্তমান বেতন গ্রেড/স্কেল:</b> গ্রেড - ${bn(C.g)}${': টাকা '+scaleTxt(C.g)}</div><div class="r"><b>টিআইএন:</b> ${bn(esc(S.tin))}</div>
+  <div class="full" style="grid-column:1/-1"><b>ভবিষ্যত তহবিল নং:</b> ${bn(esc(S.gpf))}</div></div>
+  <div class="vrow"><span>বিল/ভাউচার নং: ${bn(esc(S.voucher))}</span><span>তারিখ: ${fmtDate(S.vdate)}</span><span>টোকেন নং: ${bn(esc(S.token))}</span><span>তারিখ:</span></div>
+  <table class="bill"><tr><th>কোড নং</th><th>বিবরণ</th><th class="n" style="width:12%">হার</th><th class="n" style="width:20%">টাকার অংক</th></tr>
+  ${lines.join('')}
+  <tr><td></td><td class="n"><b>সর্বমোট বেতন ও ভাতা (ক) :</b></td><td></td><td class="n"><b>${money(C.ka)}</b></td></tr>
+  <tr><td><b>কর্তন ও পরিশোধ</b></td><td></td><td></td><td></td></tr>
+  ${dl.join('')}
+  <tr><td></td><td class="n"><b>কর্তন ও পরিশোধ বাবদ মোট আদায় (খ) :</b></td><td></td><td class="n"><b>${money(C.kh)}</b></td></tr>
+  <tr><td></td><td class="n"><b>প্রদেয় বিল (ক-খ) :</b></td><td></td><td class="n"><b>${money(C.pay)}</b></td></tr>
+  <tr><td colspan="4"><b>টাকা (কথায়): ${words(C.pay)} টাকা মাত্র</b></td></tr></table>
+  <p style="margin-top:22px">বাহক/ব্যাংক/এজেন্টের নাম<span class="dots"></span></p><p>তারিখঃ<span class="dots" style="min-width:120px"></span></p>
+  <div class="sig" style="align-items:end"><span>সংযুক্তি: বকেয়া বিবরণী (পৃষ্ঠা ২)</span><span style="text-align:center;min-width:230px"><span style="display:block;height:60px"></span><span style="display:block;border-top:1px solid #000;padding-top:4px"><b>কর্মকর্তার স্বাক্ষর ও সীল</b></span>${esc(S.name)}<br>${esc(desigOf())}</span></div>
+  <p class="c" style="margin-top:28px">[অপর পৃষ্ঠা দ্রষ্টব্য]</p>
+  <div class="foot"><span>* প্রতিষ্ঠানের ক্ষেত্রে ০৬ ডিজিট এবং বিশেষ কার্যক্রম/প্রজেক্ট/স্কিম -এর ক্ষেত্রে সাত (০৭) ডিজিটের কোড ব্যবহার করতে হবে।</span></div></div>`;
+  const sr=C.rows.map((r,i)=>`<tr><td style="text-align:center">${bn(i+1)}</td><td class="l">${MN[r.m-1]} ${bn(r.y)}${r.days<r.dim?` (${bn(r.days)} দিন)`:''}</td><td class="l">${phaseName(r.p)}</td><td>${money(r.due)}</td><td>${money(r.drawn)}</td><td>${money(r.diff)}</td><td>${money(r.sbAdj)}</td><td>${money(r.hrAdj)}</td><td><b>${money(r.net)}</b></td></tr>`).join('');
+  const p2=`<div class="page"><h2>বকেয়া বেতনের বিবরণী</h2>
+  <p class="c">(চাকরি (বেতন ও ভাতাদি) আদেশ, ২০২৬ অনুযায়ী — ${period(C)})</p>
+  <div class="meta"><div><b>নাম:</b> ${esc(S.name)}</div><div class="r"><b>পদবি:</b> ${esc(desigOf())}</div><div><b>গ্রেড:</b> ${bn(C.g)}${' (টাকা '+scaleTxt(C.g)+')'}</div><div class="r"><b>দপ্তর:</b> ${esc(S.office)}</div></div>
+  <table class="sch"><tr><th>ক্রম</th><th>মাস</th><th>ধাপ</th><th>প্রাপ্য মূল বেতন (নতুন স্কেল)</th><th>উত্তোলিত মূল বেতন</th><th>পার্থক্য</th><th>বিশেষ সুবিধা সমন্বয় (৩১১১৩৫২)</th><th>বাড়ি ভাড়া সমন্বয় (৩১১১৩১০)</th><th>নিট বকেয়া</th></tr>${sr}
+  <tr><td colspan="3" class="l"><b>মোট</b></td><td><b>${money(C.T('due'))}</b></td><td><b>${money(C.T('drawn'))}</b></td><td><b>${money(C.T('diff'))}</b></td><td><b>${money(C.T('sbAdj'))}</b></td><td><b>${money(C.T('hrAdj'))}</b></td><td><b>${money(C.T('net'))}</b></td></tr></table>
+  ${C.fx&&S.mode==='fix'?`<p style="margin:14px 0 4px"><b>বেতন নির্ধারণ সারসংক্ষেপ (জাতীয় বেতনস্কেল ২০২৬, ০১-০৭-২০২৬):</b></p><table class="sch" style="margin-top:0">${fixRows(C).filter((r,i)=>[0,5,6,7,8,10,12].includes(i)).map(r=>`<tr><td class="l">${r[0]}</td><td>${money(r[1])}</td></tr>`).join('')}</table>`:''}
+  <p style="margin-top:14px">অর্থনৈতিক কোড <b>৩১১১১০১ — মূল বেতন (অফিসার)</b>। বিশেষ সুবিধা (৩১১১৩৫২) ১ জুলাই ২০২৬ থেকে বিলুপ্ত হওয়ায় উক্ত সময়ে উত্তোলিত অর্থ সমন্বয় করা হয়েছে। বাড়ি ভাড়া ভাতা (৩১১১৩১০) ৩০ জুন ২০২৬ এর মূল বেতনের ভিত্তিতে প্রাপ্য বিধায় উক্ত সময়ে বর্ধিত হারে উত্তোলিত অতিরিক্ত অর্থ (প্রযোজ্য ক্ষেত্রে) সমন্বয় করা হয়েছে।</p>
+  <p><b>প্রত্যয়ন:</b> প্রত্যয়ন করা যাচ্ছে যে, উল্লিখিত সময়ের বকেয়া বেতন ইতঃপূর্বে উত্তোলন করা হয়নি এবং উপরোক্ত হিসাব পে-ফিক্সেশন অনুযায়ী সঠিক।</p>
+  <p><b>সংযুক্তি:</b> ১. পে-ফিক্সেশনের সত্যায়িত কপি; ২. জুলাই ২০২৬ ও সর্বশেষ মাসের বেতন বিলের কপি; ৩. প্রযোজ্য ক্ষেত্রে ছুটি/যোগদানের আদেশ।</p>
+  <div class="sig" style="margin-top:80px;align-items:start">${[['দাবিদার কর্মকর্তার স্বাক্ষর ও সীল',esc(S.name)+'<br>'+esc(desigOf())]].concat(S.counter?[['প্রতিস্বাক্ষর ও সীল',esc(S.counter)]]:[]).map(a=>`<span style="text-align:center;min-width:230px"><span style="display:block;border-top:1px solid #000;padding-top:4px"><b>${a[0]}</b></span>${a[1]}</span>`).join('')}</div></div>`;
+  const p3=`<div class="page"><h2 style="font-size:19px">হিসাবরক্ষণ অফিসে ব্যবহারের জন্য</h2>
+  <p style="margin-top:26px">টাকা<span class="dots" style="min-width:250px"></span> (কথায়) <span class="dots" style="min-width:260px"></span></p><p><span class="dots" style="min-width:250px"></span> প্রদানের জন্য পাস করা হইল।</p>
+  <div class="sig" style="margin-top:90px"><span>অডিটর (স্বাক্ষর)</span><span>সুপার (স্বাক্ষর)</span><span>হিসাবরক্ষণ অফিসার (স্বাক্ষর)</span></div>
+  <div class="sig" style="margin-top:50px;line-height:2.2"><span>নাম <span class="dots" style="min-width:140px"></span><br>তারিখ <span class="dots" style="min-width:130px"></span></span><span>নাম <span class="dots" style="min-width:140px"></span><br>চেক নম্বর <span class="dots" style="min-width:110px"></span></span><span>নাম <span class="dots" style="min-width:140px"></span><br>তারিখ <span class="dots" style="min-width:130px"></span></span></div>
+  <p style="text-align:right;margin-top:70px">চেক প্রদানকারীর স্বাক্ষর<br>তারিখ <span class="dots" style="min-width:140px"></span></p>
+  <h2 style="font-size:18px;margin-top:50px">নির্দেশাবলী</h2><ol class="ins">
+  <li>যে মাসের কাজের বিনিময়ে বেতন অর্জন করা হইয়াছে সেই মাসের শেষ কার্যদিবসের ৫ দিন পূর্বে হিসাব রক্ষণ অফিসে বিল পেশ করিতে হইবে।</li>
+  <li>পেশকৃত প্রতিটি বিলের জন্য একটি করিয়া টোকেন দেওয়া হইবে চেক/ক্যাশ অথবা আপত্তিসহ ফেরত বিল গ্রহণের প্রাক্কালে উক্ত টোকেন ফেরত দিতে হইবে। এতদ্ব্যতীত চেক/ক্যাশ গ্রহণ কালে একখানি লিখিত রসিদ স্ট্যাম্পসহ (প্রযোজ্য ক্ষেত্রে) প্রদান করিতে হইবে।</li>
+  <li>ব্যাংকার বা এজেন্টকে টাকা প্রদানের জন্য ইচ্ছানুসারে বেতন বিলে নির্দেশ করা যাইবে এবং এইরূপ ক্ষেত্রে ব্যাংক বা এজেন্টের মাধ্যমে টাকা সংগ্রহের জন্য পেশ করা যাইবে। এই জন্য সরকারী কর্মচারীর বা বাহকের ব্যক্তিগত উপস্থিতির প্রয়োজন হইবে না। ব্যাংক বা এজেন্টকে সরাসরি টাকা প্রদান করা হইবে।</li>
+  <li>প্রযোজ্য ক্ষেত্রে বিলের সঙ্গে অবশ্যই কর্তন ও আদায়ের সিডিউল প্রদান করিতে হইবে।</li></ol>
+  <p style="font-size:14px">নোট-১: হিসাব রক্ষণ কর্মকর্তাগণকে নিশ্চিত হইতে হইবে যে, সকল বাধ্যতামূলক কর্তন ও আদায়ের সিডিউল যেন বিলের সঙ্গে সংযুক্ত থাকে।<br>নোট-২: বাহকের নিকট প্রদত্ত টাকা, চেক অথবা বিলের জালিয়াতি বা আত্মসাৎ সংক্রান্ত কোনরূপ দায়-দায়িত্ব সরকার গ্রাহ্য করিবে না।</p></div>`;
+  $('pages').innerHTML=p1+p2+p3;
+  $('big').textContent=money(C.pay);
+  fit();
+}
+function render(full){const C=compute();notes(C);if(full!==false)renderEditor(C);renderBill(C);persist();}
+function fit(){const st=$('stage'),pg=$('pages');const k=Math.min(1,st.clientWidth/794);pg.style.transform=`scale(${k})`;st.style.height=(pg.scrollHeight*k)+'px';}
+const ro=new ResizeObserver(fit);ro.observe($('stage'));
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.dataset.c){S[t.dataset.c]=t.checked;render();return}
+  if(t.dataset.k==='grade'){S.oldGrade=t.value;$('oldGrade').value=t.value}
+  if(t.dataset.k){S[t.dataset.k]=t.value;if(['from','to','grade','oldGrade','b0','desigSel','mode','phased','phased2','oldBasic','sbAmt','hrRate','hrDrawn','hrDue'].includes(t.dataset.k))render();else render(false);return}
+  if(t.dataset.m){const o=S.ov[t.dataset.m]||(S.ov[t.dataset.m]={});o[t.dataset.f]=t.value===''?undefined:+t.value;t.classList.add('o');render(false);return}
+  if(t.dataset.l){S[t.dataset.l][+t.dataset.i][t.dataset.f]=t.value;render(false);return}
+  if(t.name==='mode'||t.name==='sbShow'){S[t.name]=t.value;render();}
+});
+document.addEventListener('click',e=>{const t=e.target;
+  if(t.dataset.add){S[t.dataset.add].push({c:'',d:'',a:0});renderRows(t.dataset.add);render(false)}
+  if(t.dataset.del){S[t.dataset.del].splice(+t.dataset.i,1);renderRows(t.dataset.del);render(false)}
+});
+$('clearOv').onclick=()=>{S.ov={};render()};
+$('sampleBtn').onclick=()=>{S=JSON.parse(JSON.stringify(SAMPLE));fillForm();render();status('নমুনা তথ্য (কাল্পনিক)।')};
+$('newBtn').onclick=()=>{S=JSON.parse(JSON.stringify(BASE));fillForm();render();status('নতুন ফাঁকা বিল।')};
+function status(t){$('status').textContent=t}
+function refreshSaved(){const o=store.get();$('saved').innerHTML='<option value="">সংরক্ষিত বিল খুলুন…</option>'+Object.keys(o).map(k=>`<option>${esc(k)}</option>`).join('');}
+$('saveBtn').onclick=()=>{const k=(S.name||'নামহীন')+' — '+(S.from||'');const o=store.get();o[k]=S;status(store.set(o)?'সংরক্ষিত হয়েছে (এই ব্রাউজারে)।':'এই ব্রাউজারে সংরক্ষণ করা যাচ্ছে না।');refreshSaved();};
+$('saved').onchange=e=>{const o=store.get()[e.target.value];if(o){S=Object.assign(JSON.parse(JSON.stringify(BASE)),o);fillForm();render();status('বিল খোলা হয়েছে।')}};
+const framed=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+$('printBtn').onclick=()=>{if(framed){status('এখানে সরাসরি প্রিন্ট হয় না — PDF ডাউনলোড করে প্রিন্ট করুন।');return}window.print()};
+$('pdfBtn').onclick=async()=>{
+  if(!window.html2canvas||!window.jspdf){status('PDF লাইব্রেরি লোড হয়নি, ইন্টারনেট সংযোগ দেখুন।');return}
+  status('PDF তৈরি হচ্ছে…');const pg=$('pages'),old=pg.style.transform;pg.style.transform='none';
+  try{await document.fonts.ready;const pdf=new jspdf.jsPDF({unit:'mm',format:'a4'});const els=[...pg.querySelectorAll('.page')];
+    for(let i=0;i<els.length;i++){const cv=await html2canvas(els[i],{scale:2,backgroundColor:'#fff'});if(i)pdf.addPage();pdf.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297);}
+    pg.style.transform=old;const name=`Arrear_Bill_${(S.name||'officer').replace(/[^\wঀ-৿]+/g,'_')}.pdf`;const blob=pdf.output('blob');
+    let dl=null;try{dl=window.claude&&await window.claude.use('downloads')}catch(e){}
+    if(dl){try{await dl.save({filename:name,data:blob});status('PDF সংরক্ষিত।')}catch(err){status(err&&err.code==='declined'?'ডাউনলোড বাতিল করা হয়েছে।':'ডাউনলোড করা যায়নি।')}}
+    else if(framed){status('এই লিংক থেকে PDF ডাউনলোড চালু নেই — Arrear_Bill_Tool.html file টি browser-এ খুলে PDF/প্রিন্ট করুন।')}
+    else{pdf.save(name);status('PDF ডাউনলোড হয়েছে।')}
+  }catch(err){pg.style.transform=old;status('PDF তৈরি করা যায়নি।')}
+};
+loadInit();fillForm();refreshSaved();render();
+}
+</script>
+</body>
+</html>

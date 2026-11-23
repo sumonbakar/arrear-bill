@@ -411,7 +411,7 @@ $('fxFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(framed)
       if(pdfDoc.numPages>1){$('fxPage').innerHTML=Array.from({length:pdfDoc.numPages},(_,i)=>`<option value="${i+1}">পৃষ্ঠা ${bn(i+1)}</option>`).join('');$('lPage').style.display=''}
     }else{imgCanvas=await imageCanvas(f)}
     await runOCR();
-  }catch(err){prog('');$('fxResult').innerHTML='<p class="bad">ফাইলটি পড়া যায়নি। ইন্টারনেট সংযোগ দেখুন, অথবা স্পষ্ট PDF/ছবি দিন।</p>'}};
+  }catch(err){console.error('fx',err);window.__fxErr=String(err&&err.stack||err);prog('');$('fxResult').innerHTML='<p class="bad">ফাইলটি পড়া যায়নি। ইন্টারনেট সংযোগ দেখুন, অথবা স্পষ্ট PDF/ছবি দিন।</p>'}};
 $('fxPage').onchange=()=>runOCR().catch(()=>prog('পড়া যায়নি।'));
 async function runOCR(){const c=pdfDoc?await pageCanvas(+$('fxPage').value||1):imgCanvas;if(!c)return;
   const w=await getWorker();prog('লেখা পড়া হচ্ছে…',0);const r=await w.recognize(c);prog('');const d=parseFx(r.data.text);window.__fx={raw:r.data.text,d};applyFix(d);}
@@ -434,7 +434,10 @@ function parseFx(raw){
   const l2=L.find(l=>/নাম\s*ও\s*পদ/.test(l));const p2=l2?l2.split(/[:;]/).slice(1).join(':').split(','):[];
   d.name=(sm?sm[1]:p2[0]||'').trim();d.desig=(sm?sm[2]:p2.slice(1).join(',')||'').trim();
   const l3=L.find(l=>/দপ্তর\s*\//.test(l)||/^\s*0?3\s*[।|l]/.test(l)&&/\d{8,}\s*-/.test(l));const om=l3&&l3.split(/[:;]/).slice(1).join(':').match(/(\d{6,15})\s*-\s*(.+)/);
-  if(om){d.opcode=om[1].slice(-6);d.officeRaw=om[2];d.office=om[2].trim().replace(/^্রধান/,'প্রধান').replace(/কার্যা\S*\s+(?!স্বাস্থ্য)\S{1,6}\s+অধিদপ্তর/,'কার্যালয়, স্বাস্থ্য অধিদপ্তর');d.officeFlag=d.office!==om[2].trim()||/[A-Za-z0-9\/|()]/.test(d.office).replace(/াণয়/g,'ালয়').replace(/উপজেপা/g,'উপজেলা').replace(/মন্(?:জ|)ণ/g,'মন্ত্রণ')}
+  if(om){d.opcode=om[1].slice(-6);d.officeRaw=om[2].trim();
+    let o=d.officeRaw.replace(/^্রধান/,'প্রধান').replace(/াণয়/g,'ালয়').replace(/উপজেপা/g,'উপজেলা').replace(/মন্(?:জ|)ণ/g,'মন্ত্রণ');
+    o=o.replace(/কার্যা\S*\s+(?=\S*[A-Za-z0-9\/|()!])\S{1,6}\s+অধিদপ্তর/,'কার্যালয়, স্বাস্থ্য অধিদপ্তর');
+    d.office=o;d.officeFlag=/[A-Za-z0-9\/|()!]/.test(d.officeRaw)||o!==d.officeRaw.replace(/াণয়/g,'ালয়');}
   return d;}
 function desigMap(x){if(/মেডিকে|মেডিক্যা/.test(x))return 'Medical Officer';if(/সার্জন/.test(x))return 'সহকারী সার্জন';
   if(/অধ্যা/.test(x)){if(/যোগী/.test(x))return 'সহযোগী অধ্যাপক';if(/কারী|সংকা|সহকা/.test(x))return 'সহকারী অধ্যাপক';return 'অধ্যাপক'}return '';}

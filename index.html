@@ -55,6 +55,7 @@ table.ed input.o{border-color:var(--red)}
 button.b{font:inherit;font-weight:600;border:1px solid var(--g);background:var(--panel);color:var(--g);border-radius:8px;padding:9px 14px;min-height:44px;cursor:pointer}
 button.p{background:var(--g);color:#fff}
 .fx{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--g2)}.fx td{padding:4px 8px;border-bottom:1px solid var(--line)}.fx td:last-child{text-align:right;white-space:nowrap;font-weight:600}
+.submitbox{background:var(--panel);border:2px solid var(--g);border-radius:12px;padding:16px}.big{width:100%;min-height:56px;font-size:19px}.done .stage{outline:3px solid #006a4e;outline-offset:4px}
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .view{position:sticky;top:12px;align-self:start}
 @media(max-width:980px){.view{position:static}}
@@ -161,6 +162,11 @@ ol.ins{padding-left:22px;font-size:14px}
   <fieldset><legend>কর্তন ও পরিশোধ</legend><div class="rows" id="ded"></div>
     <div class="bar" style="margin-top:8px"><button class="b" data-add="ded">+ কর্তন যোগ</button></div>
     <p class="hint">শুধু যে কর্তনে টাকা আছে সেটিই বিলে ছাপা হবে।</p></fieldset>
+  <div class="submitbox">
+    <div id="checkList" class="warn" style="margin:0 0 10px"></div>
+    <button class="b p big" id="submitBtn" type="button">✔ চূড়ান্ত বিল তৈরি করুন</button>
+    <p class="hint" style="text-align:center">তথ্য যাচাই হয়ে চূড়ান্ত বিল (৩ পৃষ্ঠা) তৈরি হবে এবং PDF ডাউনলোড শুরু হবে।</p>
+  </div>
 </section>
 <section class="view">
   <div class="bar" style="margin-bottom:10px">
@@ -328,7 +334,7 @@ function renderBill(C){
 function render(full){const C=compute();notes(C);if(full!==false)renderEditor(C);renderBill(C);persist();}
 function fit(){const st=$('stage'),pg=$('pages');const k=Math.min(1,st.clientWidth/794);pg.style.transform=`scale(${k})`;st.style.height=(pg.scrollHeight*k)+'px';}
 const ro=new ResizeObserver(fit);ro.observe($('stage'));
-document.addEventListener('input',e=>{const t=e.target;
+document.addEventListener('input',e=>{const t=e.target;document.querySelector('.view').classList.remove('done');
   if(t.dataset.c){S[t.dataset.c]=t.checked;render();return}
   if(t.dataset.k==='grade'){S.oldGrade=t.value;$('oldGrade').value=t.value}
   if(t.dataset.k){S[t.dataset.k]=t.value;if(['from','to','grade','oldGrade','b0','desigSel','mode','phased','phased2','oldBasic','sbAmt','hrRate','hrDrawn','hrDue'].includes(t.dataset.k))render();else render(false);return}
@@ -349,7 +355,7 @@ $('saveBtn').onclick=()=>{const k=(S.name||'নামহীন')+' — '+(S.from
 $('saved').onchange=e=>{const o=store.get()[e.target.value];if(o){S=Object.assign(JSON.parse(JSON.stringify(BASE)),o);fillForm();render();status('বিল খোলা হয়েছে।')}};
 const framed=(()=>{try{return window.self!==window.top}catch(e){return true}})();
 $('printBtn').onclick=()=>{if(framed){status('এখানে সরাসরি প্রিন্ট হয় না — PDF ডাউনলোড করে প্রিন্ট করুন।');return}window.print()};
-$('pdfBtn').onclick=async()=>{
+async function makePdf(){
   if(!window.html2canvas||!window.jspdf){status('PDF লাইব্রেরি লোড হয়নি, ইন্টারনেট সংযোগ দেখুন।');return}
   status('PDF তৈরি হচ্ছে…');const pg=$('pages'),old=pg.style.transform;pg.style.transform='none';
   try{await document.fonts.ready;const pdf=new jspdf.jsPDF({unit:'mm',format:'a4'});const els=[...pg.querySelectorAll('.page')];
@@ -360,6 +366,21 @@ $('pdfBtn').onclick=async()=>{
     else if(framed){status('এই লিংক থেকে PDF ডাউনলোড চালু নেই — Arrear_Bill_Tool.html file টি browser-এ খুলে PDF/প্রিন্ট করুন।')}
     else{pdf.save(name);status('PDF ডাউনলোড হয়েছে।')}
   }catch(err){pg.style.transform=old;status('PDF তৈরি করা যায়নি।')}
+};
+$('pdfBtn').onclick=makePdf;
+function missing(C){const m=[];
+  if(!S.office)m.push('দপ্তর');if(!S.name)m.push('নাম');if(S.desigSel==='__other'&&!S.desigOther)m.push('পদবি');
+  if(S.mode==='fix'&&!+S.b0)m.push('৩০-০৬-২০২৬ এ গৃহীত মূল বেতন');if(S.mode==='ibas'&&!+S.phased)m.push('আইবাস++ বিলের মূল বেতন');
+  if(!C.rows.length)m.push('বকেয়ার সময়কাল (শুরু ও শেষ মাস)');
+  if(!m.length&&C.rows.length&&C.pay<=0)m.push('প্রদেয় অংক শূন্য বা ঋণাত্মক — মূল বেতন ও উত্তোলিত অংক যাচাই করুন');
+  return m;}
+$('submitBtn').onclick=async()=>{
+  const C=compute();const m=missing(C);
+  if(m.length){$('checkList').innerHTML='যা বাকি আছে: '+m.map(esc).join(', ');$('checkList').scrollIntoView({behavior:'smooth',block:'center'});return}
+  $('checkList').textContent='';render();
+  const v=document.querySelector('.view');v.classList.add('done');v.scrollIntoView({behavior:'smooth',block:'start'});
+  status('চূড়ান্ত বিল তৈরি হয়েছে — প্রদেয় '+money(C.pay)+' টাকা। PDF তৈরি হচ্ছে…');
+  await makePdf();
 };
 loadInit();fillForm();refreshSaved();render();
 }
